@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Download Image in Vue.js</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>Sample image upload</h1>
+                <input
+                    type="file"
+                    ref="preview"
+                    @change="uploadFile"
+                    accept=".jpg,.png,image/jpeg,image/png"
+                />
+            <div v-if="url"><img :src="url" /></div>
+            <button @click="onClick()">画像を保存</button>
+        </div>
+    </body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: "Try preview",
+            url: "",
+        },
+
+        methods:{
+            uploadFile() {
+                console.log(this.$refs.preview.files[0]);
+                const file = this.$refs.preview.files[0];
+                this.url = URL.createObjectURL(file);
+                console.log(this.url);
+            },
+
+            onClick() {
+                let fileUrl = this.url;
+                console.log(this.url);
+                let fileLink = document.createElement("a");
+                fileLink.href = fileUrl;
+
+                fileLink.setAttribute("download", "image.jpg");
+                document.body.appendChild(fileLink);
+
+                fileLink.click();
+            },
+        }
+    })
+</script>
+</html>
+
+
